@@ -10,7 +10,7 @@ L'exercice est de coder une version digitale d'une fourmilière, en GO.
 - `##start` : c'est la salle de départ de toutes les fourmis.
 - `##end` : c'est la salle d'arrivée de toutes les fourmis.
 - C'est un fonctionnement en tour par tour.
-- Les fourmis doivent atteindre la sortie par le plus court chemin possible.
+- Les fourmis doivent atteindre la sortie avec le moins de mouvements possibles.
 - Le terminal doit afficher :
   * Les données du fichier en inpout.
   * Chaque mouvement de chaque fourmi, chaque tour.
@@ -27,16 +27,22 @@ Lx-y Lz-w Lr-o ...
 - `x`, `z`, `r` représentent les numéros des fourmis (allant de 1 au nombre maximum de fourmi de l'exercice).
 - `y`, `w`, `o` représentent les noms des salles.
 
-### Noms des salles : `"name coord_x coord_y"`
+### Noms des salles : `"name coord_x coord_y"` ou `"string int int"`
 Exemples :
 - Room 1 2  
 - nameoftheroom 1 6  
 - 4 6 7  
 
-### Noms des tunnels : `"name1-name2"`
+### Noms des tunnels : `"name1-name2"` ou `"int int"`
 Exemples :
 - 1-2  
 - 2-5  
+
+### Salles de Départ ou d'Arrivé : `"name coord_x coord_y"` ou `"string int int"`
+Exemples :
+- Room 1 2  
+- nameoftheroom 1 6  
+- 4 6 7  
 
 ### En cas d'erreurs, afficher :
 ```ERROR: invalid data format, reason of the error```
@@ -50,6 +56,7 @@ Exemples :
 - Des tunnels peuvent mener vers des salles inconnues.
 - Nous devons "construire" les salles et les tunnels.
 - Deux salles ne peuvent pas êtres liées par plus d'un tunnel.
+- Une ligne dans l'ouput, c'est un tour d'actions des fourmis en capacités de le faire.
 
 ### Salles :
 - Chaque salle ne peut contenir qu'une seule fourmi à la fois.
