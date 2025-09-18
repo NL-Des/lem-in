@@ -1,0 +1,5 @@
+package algorithme
+
+func Base() {
+
+}

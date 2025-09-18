@@ -4,7 +4,11 @@
 // Comment lui faire comprendre quelles salles ou quels tunnels sont occupés ?
 // Comment lui faire comprendre qu'il doit prendre en compte ces lieux occupés pour recalculer le chemin le plus court ?
 
-// BFS
+//MARK: BFS ?
+
+//MARK: strings.Field à étudier pour bien refaire.
+
+//MARK: mettre les tunnels reliés à chaque salle dans la struct Rooms.
 
 package main
 
@@ -15,7 +19,7 @@ import (
 	"strings"
 )
 
-type StartRoom struct {
+/* type StartRoom struct {
 	Name string
 	x    int
 	y    int
@@ -25,12 +29,14 @@ type EndRoom struct {
 	Name string
 	x    int
 	y    int
-}
+} */
 
 type Rooms struct {
-	Name string
-	x    int
-	y    int
+	Start bool
+	End   bool
+	Name  string
+	x     int
+	y     int
 }
 
 type Tunnels struct {
@@ -50,15 +56,16 @@ func main() {
 // Récupère les trois coordonnées de chaque salle (Nom, x, y)
 func tidyRoomsInStruct(stringTable []string) {
 	var RoomsList []Rooms
+	// var EndRoomList []EndRoom
+	// var StartRoomList []StartRoom
 
 	// Boucle pour trouver les salles.
 	for i := 0; i < len(stringTable); i++ {
 
-		// MARK: strings.Field à étudier pour bien refaire.
-
 		//Pour trouver la Start Room.
 		if strings.Contains(stringTable[i], "##start") {
-			var StartRoomList []StartRoom
+			isStart := true
+			isEnd := false
 			i++
 			first, rest, err0 := strings.Cut(stringTable[i], " ")
 			if !err0 {
@@ -77,13 +84,13 @@ func tidyRoomsInStruct(stringTable []string) {
 			if err3 != nil {
 				fmt.Println("Error 3 on StartRooms")
 			}
-			StartRoomList = append(StartRoomList, StartRoom{Name: name, x: x, y: y})
-			//fmt.Println(StartRoomList) // test d'affichage pour vérifier si c'est dans la structure.
+			RoomsList = append(RoomsList, Rooms{Start: isStart, End: isEnd, Name: name, x: x, y: y})
 		}
 
 		// Pour trouver la End Room.
 		if strings.Contains(stringTable[i], "##end") {
-			var EndRoomList []EndRoom
+			isStart := false
+			isEnd := true
 			i++
 			first, rest, err0 := strings.Cut(stringTable[i], " ")
 			if !err0 {
@@ -102,9 +109,7 @@ func tidyRoomsInStruct(stringTable []string) {
 			if err3 != nil {
 				fmt.Println("Error 3 on EndRooms")
 			}
-			EndRoomList = append(EndRoomList, EndRoom{Name: name, x: x, y: y})
-			//fmt.Println(EndRoomList) // test d'affichage pour vérifier si c'est dans la structure.
-
+			RoomsList = append(RoomsList, Rooms{Start: isStart, End: isEnd, Name: name, x: x, y: y})
 		}
 
 		// Pour enregistrer les autres Rooms restantes.
@@ -127,10 +132,12 @@ func tidyRoomsInStruct(stringTable []string) {
 				fmt.Println("Error 3 on EndRooms")
 			}
 			RoomsList = append(RoomsList, Rooms{Name: name, x: x, y: y})
-			fmt.Println(RoomsList) // test d'affichage pour vérifier si c'est dans la structure.
-
 		}
 	}
+	// fmt.Println("Coordonnées de Start :", StartRoomList) // test d'affichage pour vérifier si c'est bien pris en compte.
+	// fmt.Println("Coordonnées de End :", EndRoomList)
+	fmt.Println("Coordonnées des salles :", RoomsList)
+
 }
 
 // Récupère les deux coordonnées du tunnel (x, y)
@@ -157,9 +164,10 @@ func tidyTunnelsInStruct(stringTable []string) {
 				fmt.Println("Error 0 on tunnels")
 			}
 			tunnelsList = append(tunnelsList, Tunnels{x: x, y: y})
-			fmt.Println(tunnelsList)
 		}
 	}
+	fmt.Println("Coordonnées des tunnels :", tunnelsList)
+
 }
 
 // Récupère la fourmi.
@@ -168,6 +176,7 @@ func tidyAnts(stringTable []string) int {
 	if err != nil {
 		fmt.Println("Erreur sur le nombre de fourmis")
 	}
+	fmt.Printf("Nombre de fourmis : %d \n", ants)
 	return ants
 }
 
