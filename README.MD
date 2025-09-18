@@ -10,7 +10,7 @@ L'exercice est de coder une version digitale d'une fourmilière, en GO.
 - `##start` : c'est la salle de départ de toutes les fourmis.
 - `##end` : c'est la salle d'arrivée de toutes les fourmis.
 - C'est un fonctionnement en tour par tour.
-- Les fourmis doivent atteindre la sortie avec le moins de mouvements possibles.
+- Les fourmis doivent atteindre la sortie avec le moins de mouvements possibles. En prenannt en compte les fourmis déjà en mouvements, et occupant les tunnels et les salles.
 - Le terminal doit afficher :
   * Les données du fichier en inpout.
   * Chaque mouvement de chaque fourmi, chaque tour.

@@ -1,0 +1,203 @@
+// Comment créer une carte compréhensible de la fourmilière pour le programme ?
+// Comment la lui faire lire ?
+// Comment la lui faire parcourir avec une fourmi ?
+// Comment lui faire comprendre quelles salles ou quels tunnels sont occupés ?
+// Comment lui faire comprendre qu'il doit prendre en compte ces lieux occupés pour recalculer le chemin le plus court ?
+
+// BFS
+
+package main
+
+import (
+	"fmt"
+	"os"
+	"strconv"
+	"strings"
+)
+
+type StartRoom struct {
+	Name string
+	x    int
+	y    int
+}
+
+type EndRoom struct {
+	Name string
+	x    int
+	y    int
+}
+
+type Rooms struct {
+	Name string
+	x    int
+	y    int
+}
+
+type Tunnels struct {
+	x int
+	y int
+}
+
+func main() {
+	data := readFile()
+	stringTable := putFileInStringTable(data)
+	ants := tidyAnts(stringTable)
+	tidyRoomsInStruct(stringTable)
+	tidyTunnelsInStruct(stringTable)
+	fmt.Println(ants)
+}
+
+// Récupère les trois coordonnées de chaque salle (Nom, x, y)
+func tidyRoomsInStruct(stringTable []string) {
+	var RoomsList []Rooms
+
+	// Boucle pour trouver les salles.
+	for i := 0; i < len(stringTable); i++ {
+
+		// MARK: strings.Field à étudier pour bien refaire.
+
+		//Pour trouver la Start Room.
+		if strings.Contains(stringTable[i], "##start") {
+			var StartRoomList []StartRoom
+			i++
+			first, rest, err0 := strings.Cut(stringTable[i], " ")
+			if !err0 {
+				fmt.Println("Error 0 on StartRooms")
+			}
+			second, third, err1 := strings.Cut(rest, " ")
+			if !err1 {
+				fmt.Println("Error 1 on StartRooms")
+			}
+			name := first
+			x, err2 := strconv.Atoi(second)
+			if err2 != nil {
+				fmt.Println("Error 2 on StartRooms")
+			}
+			y, err3 := strconv.Atoi(third)
+			if err3 != nil {
+				fmt.Println("Error 3 on StartRooms")
+			}
+			StartRoomList = append(StartRoomList, StartRoom{Name: name, x: x, y: y})
+			//fmt.Println(StartRoomList) // test d'affichage pour vérifier si c'est dans la structure.
+		}
+
+		// Pour trouver la End Room.
+		if strings.Contains(stringTable[i], "##end") {
+			var EndRoomList []EndRoom
+			i++
+			first, rest, err0 := strings.Cut(stringTable[i], " ")
+			if !err0 {
+				fmt.Println("Error 0 on EndRooms")
+			}
+			second, third, err1 := strings.Cut(rest, " ")
+			if !err1 {
+				fmt.Println("Error 1 on EndRooms")
+			}
+			name := first
+			x, err2 := strconv.Atoi(second)
+			if err2 != nil {
+				fmt.Println("Error 2 on EndRooms")
+			}
+			y, err3 := strconv.Atoi(third)
+			if err3 != nil {
+				fmt.Println("Error 3 on EndRooms")
+			}
+			EndRoomList = append(EndRoomList, EndRoom{Name: name, x: x, y: y})
+			//fmt.Println(EndRoomList) // test d'affichage pour vérifier si c'est dans la structure.
+
+		}
+
+		// Pour enregistrer les autres Rooms restantes.
+		if strings.Contains(stringTable[i], " ") && !strings.Contains(stringTable[i-1], "##end") && !strings.Contains(stringTable[i-1], "##start") {
+			first, rest, err0 := strings.Cut(stringTable[i], " ")
+			if !err0 {
+				fmt.Println("Error 0 on EndRooms")
+			}
+			second, third, err1 := strings.Cut(rest, " ")
+			if !err1 {
+				fmt.Println("Error 1 on EndRooms")
+			}
+			name := first
+			x, err2 := strconv.Atoi(second)
+			if err2 != nil {
+				fmt.Println("Error 2 on EndRooms")
+			}
+			y, err3 := strconv.Atoi(third)
+			if err3 != nil {
+				fmt.Println("Error 3 on EndRooms")
+			}
+			RoomsList = append(RoomsList, Rooms{Name: name, x: x, y: y})
+			fmt.Println(RoomsList) // test d'affichage pour vérifier si c'est dans la structure.
+
+		}
+	}
+}
+
+// Récupère les deux coordonnées du tunnel (x, y)
+func tidyTunnelsInStruct(stringTable []string) {
+	var tunnelsList []Tunnels
+
+	for i := 0; i < len(stringTable); i++ {
+
+		if strings.Contains(stringTable[i], "-") {
+
+			before, after, err0 := strings.Cut(stringTable[i], "-")
+
+			if err0 == false {
+				fmt.Println("Error 0 on tunnels")
+			}
+
+			x, err1 := strconv.Atoi(before)
+			if err1 != nil {
+				fmt.Println("Error 1 on tunnels")
+			}
+
+			y, err2 := strconv.Atoi(after)
+			if err2 != nil {
+				fmt.Println("Error 0 on tunnels")
+			}
+			tunnelsList = append(tunnelsList, Tunnels{x: x, y: y})
+			fmt.Println(tunnelsList)
+		}
+	}
+}
+
+// Récupère la fourmi.
+func tidyAnts(stringTable []string) int {
+	ants, err := strconv.Atoi(stringTable[0])
+	if err != nil {
+		fmt.Println("Erreur sur le nombre de fourmis")
+	}
+	return ants
+}
+
+// Mise en []string.
+func putFileInStringTable(data string) []string {
+	var runeTable []rune
+	var stringTable []string
+
+	for _, caracter := range data {
+		if caracter == '\n' {
+			stringTable = append(stringTable, string(runeTable))
+			runeTable = nil
+		} else {
+			runeTable = append(runeTable, caracter)
+		}
+
+	}
+	// Affichage du fichier dans la console.
+	for i := 0; i < len(stringTable); i++ {
+		//fmt.Println(stringTable[i])
+	}
+	return stringTable
+}
+
+// Lit le fichier texte pour pouvoir travailler dessus.
+func readFile() string {
+	input, err := os.ReadFile("tests-files/test.txt")
+	if err != nil {
+		fmt.Printf("File not found.\n")
+	}
+	data := string(input)
+	return data
+}
