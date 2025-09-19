@@ -9,6 +9,9 @@
 //MARK: strings.Field à étudier pour bien refaire.
 
 //MARK: mettre les tunnels reliés à chaque salle dans la struct Rooms.
+// Pour cela, je dois affilier chaque tunnel à chaque salle.
+// J'ai déjà mis en place les éléments dans la Struct.
+// Il faut construire la boucle de liaison pour distribuer les tunnels aux salles.
 
 package main
 
@@ -32,11 +35,13 @@ type EndRoom struct {
 } */
 
 type Rooms struct {
-	Start bool
-	End   bool
-	Name  string
-	x     int
-	y     int
+	Start    bool
+	End      bool
+	Name     string
+	x        int
+	y        int
+	TunnelsX int
+	TunnelsY int
 }
 
 type Tunnels struct {
