@@ -11,7 +11,8 @@ func AlgorithmeTest(roomsList []rooms.Rooms) Connexions {
 	connexions := make(Connexions)
 
 	// Construction des salles.
-	for i := 0; i < len(roomsList); i++ { // Parcours les noms de salles.
+	for i := 0; i < len(roomsList); i++ { // Parcours l'index de la structure.
+
 		for y := 0; y < len(roomsList[i].Room1Name); y++ { // Parcours les tunnels enregistrés sous chaque nom de salle.
 			room1 := roomsList[i].Room1Name[y]
 			room2 := roomsList[i].Room2Name[y]
@@ -23,3 +24,4 @@ func AlgorithmeTest(roomsList []rooms.Rooms) Connexions {
 	}
 	return connexions
 }
+
