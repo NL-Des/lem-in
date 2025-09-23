@@ -4,8 +4,6 @@
 // Comment lui faire comprendre quelles salles ou quels tunnels sont occupés ?
 // Comment lui faire comprendre qu'il doit prendre en compte ces lieux occupés pour recalculer le chemin le plus court ?
 
-//MARK: BFS ?
-
 //MARK: mettre les tunnels reliés à chaque salle dans la struct Rooms.
 // Pour cela, je dois affilier chaque tunnel à chaque salle.
 // J'ai déjà mis en place les éléments dans la Struct.
@@ -15,6 +13,7 @@ package main
 
 import (
 	"fmt"
+	"lemin/algorithme"
 	"lemin/extraction"
 	"lemin/tidydata/ants"
 	"lemin/tidydata/rooms"
@@ -30,6 +29,12 @@ func main() {
 	roomsList := rooms.TidyRoomsInStruct(stringTable)
 
 	roomsList = tunnels.TidyTunnelsInStruct(stringTable, roomsList)
+	startRoomName := algorithme.GetStartRoom(roomsList)
+	endRoomName := algorithme.GetEndRoom(roomsList)
+	connexions := algorithme.AlgorithmeTest(roomsList)
+	parent := algorithme.ResolverPath(startRoomName, endRoomName, connexions) // En construction, j'en suis ici.
+
+	fmt.Println(startRoomName, endRoomName, parent)
 
 	fmt.Printf("Nombre de fourmis : %d \n", ant)
 	fmt.Println(roomsList)

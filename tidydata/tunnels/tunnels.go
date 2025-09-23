@@ -6,8 +6,6 @@ import (
 	"strings"
 )
 
-
-
 // Récupère les deux coordonnées du tunnel (x, y)
 func TidyTunnelsInStruct(stringTable []string, roomsList []rooms.Rooms) []rooms.Rooms {
 
@@ -20,25 +18,16 @@ func TidyTunnelsInStruct(stringTable []string, roomsList []rooms.Rooms) []rooms.
 			if !err0 {
 				fmt.Println("Error 0 on tunnels")
 			}
-			// MARK: à corriger
 			for i := range roomsList {
 				if roomsList[i].Name == room1 {
 					roomsList[i].Room1Name = append(roomsList[i].Room1Name, room1)
 					roomsList[i].Room2Name = append(roomsList[i].Room2Name, room2)
 				}
 				if roomsList[i].Name == room2 {
-					roomsList[i].Room1Name = append(roomsList[i].Room1Name, room1)
-					roomsList[i].Room2Name = append(roomsList[i].Room2Name, room2)
+					roomsList[i].Room1Name = append(roomsList[i].Room1Name, room2)
+					roomsList[i].Room2Name = append(roomsList[i].Room2Name, room1)
 				}
 			}
-			/* 			for _, room := range roomsList {
-				if room.Name == room1 {
-					roomsList = append(roomsList, rooms.Rooms{Room1Name: []string{room1}, Room2Name: []string{room2}})
-				}
-				if room.Name == room2 {
-					roomsList = append(roomsList, rooms.Rooms{Room1Name: []string{room1}, Room2Name: []string{room2}})
-				}
-			} */
 		}
 	}
 	return roomsList

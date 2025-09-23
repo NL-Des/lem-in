@@ -1,5 +1,3 @@
-//MARK: strings.Field à étudier pour bien refaire.
-
 package rooms
 
 import (

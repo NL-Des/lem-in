@@ -1,6 +1,6 @@
 package algorithme
 
-func resolverPath(startRoomName string, endRoomName string, connexions map[string][]string) []string {
+func ResolverPath(startRoomName string, endRoomName string, connexions map[string][]string) map[string][]string {
 	// BFS
 	listOfRooms := []string{startRoomName}
 	used := make(map[string]bool)
@@ -13,8 +13,11 @@ func resolverPath(startRoomName string, endRoomName string, connexions map[strin
 		listOfRooms = listOfRooms[1:]
 
 		if current == endRoomName {
-			// Reconstruire le chemin
-			return resolverPath(parent, startRoomName, endRoomName)
+			// Reconstruire le chemin et l'emballer dans une map
+			path := reconstructPath(parent, startRoomName, endRoomName)
+			result := make(map[string][]string)
+			result["path"] = path
+			return result
 		}
 
 		for _, neighbor := range connexions[current] {
